@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ビットコイン総額</title>
+
+  <style>
+    /* ==============================
+       全体の基本設定
+       ============================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #050505;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #d8bd83;
+      font-family:
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        "YuMincho",
+        serif;
+
+      /* 同じフォルダに background.png を置いてください */
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.18)),
+        url("background.png");
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* ==============================
+       ページ全体を囲う金色の枠
+       ============================== */
+    .page-frame {
+      position: relative;
+      width: min(94%, 900px);
+      min-height: calc(100vh - 40px);
+      margin: 20px auto;
+      padding: 56px 44px;
+
+      border: 1px solid rgba(179, 143, 76, 0.9);
+      box-shadow:
+        inset 0 0 0 5px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 6px rgba(179, 143, 76, 0.28),
+        0 18px 45px rgba(0, 0, 0, 0.55);
+
+      background: rgba(5, 5, 5, 0.36);
+      backdrop-filter: blur(1px);
+    }
+
+    /* 四隅の簡単な飾り */
+    .page-frame::before,
+    .page-frame::after {
+      content: "◆";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #a9874e;
+      font-size: 13px;
+      background: #090909;
+      padding: 0 16px;
+    }
+
+    .page-frame::before {
+      top: -9px;
+    }
+
+    .page-frame::after {
+      bottom: -9px;
+    }
+
+    /* ==============================
+       タイトル
+       ============================== */
+    .site-title {
+      margin: 0 0 48px;
+      text-align: center;
+      color: #e0c58f;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-shadow: 0 0 16px rgba(189, 145, 70, 0.15);
+    }
+
+    .site-title::after {
+      content: "";
+      display: block;
+      width: min(360px, 72%);
+      height: 1px;
+      margin: 22px auto 0;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #a17f45 20%,
+        #d1b06c 50%,
+        #a17f45 80%,
+        transparent
+      );
+    }
+
+    /* ==============================
+       プレイヤー一覧
+       ============================== */
+    .player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: min(100%, 680px);
+      margin: 0 auto;
+    }
+
+    .player-card {
+      position: relative;
+      padding: 24px 28px;
+      text-align: center;
+      border: 1px solid rgba(169, 134, 74, 0.72);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.025),
+          rgba(0, 0, 0, 0.18)
+        );
+      box-shadow:
+        inset 0 0 22px rgba(0, 0, 0, 0.5),
+        0 8px 20px rgba(0, 0, 0, 0.28);
+    }
+
+    .player-card::before,
+    .player-card::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 26px;
+      height: 1px;
+      background: #94733e;
+    }
+
+    .player-card::before {
+      left: 12px;
+    }
+
+    .player-card::after {
+      right: 12px;
+    }
+
+    .player-name {
+      margin: 0 0 10px;
+      color: #c3a46a;
+      font-size: clamp(18px, 3vw, 25px);
+      letter-spacing: 0.12em;
+    }
+
+    .player-money {
+      margin: 0;
+      color: #f0d8a5;
+      font-size: clamp(30px, 6vw, 52px);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    /* ==============================
+       スマホ用の調整
+       ============================== */
+    @media (max-width: 600px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .page-frame {
+        width: calc(100% - 24px);
+        min-height: calc(100vh - 24px);
+        margin: 12px auto;
+        padding: 42px 16px;
+      }
+
+      .site-title {
+        margin-bottom: 34px;
+        letter-spacing: 0.1em;
+      }
+
+      .player-list {
+        gap: 14px;
+      }
+
+      .player-card {
+        padding: 21px 18px;
+      }
+
+      .player-card::before,
+      .player-card::after {
+        width: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page-frame">
+    <!-- ↓ サイトのタイトルを書き換える場所です -->
+    <h1 class="site-title">ビットコイン総額</h1>
+
+    <section class="player-list" aria-label="プレイヤー別所持金">
+
+      <article class="player-card">
+        <!-- ↓ プレイヤーAの名前を書き換えてください -->
+        <h2 class="player-name">プレイヤーA</h2>
+
+        <!-- ↓ プレイヤーAの金額を書き換えてください -->
+        <p class="player-money">〇〇円</p>
+      </article>
+
+      <article class="player-card">
+        <!-- ↓ プレイヤーBの名前を書き換えてください -->
+        <h2 class="player-name">プレイヤーB</h2>
+
+        <!-- ↓ プレイヤーBの金額を書き換えてください -->
+        <p class="player-money">〇〇円</p>
+      </article>
+
+      <article class="player-card">
+        <!-- ↓ プレイヤーCの名前を書き換えてください -->
+        <h2 class="player-name">プレイヤーC</h2>
+
+        <!-- ↓ プレイヤーCの金額を書き換えてください -->
+        <p class="player-money">〇〇円</p>
+      </article>
+
+      <article class="player-card">
+        <!-- ↓ プレイヤーDの名前を書き換えてください -->
+        <h2 class="player-name">プレイヤーD</h2>
+
+        <!-- ↓ プレイヤーDの金額を書き換えてください -->
+        <p class="player-money">〇〇円</p>
+      </article>
+
+    </section>
+  </main>
+</body>
+</html>
