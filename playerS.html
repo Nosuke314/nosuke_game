@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>あなたの持ち金</title>
+
+  <style>
+    /* ==============================
+       全体の基本設定
+       ============================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #050505;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #d8bd83;
+      font-family:
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        "YuMincho",
+        serif;
+
+      /* 同じフォルダに background.png を置いてください */
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.18)),
+        url("background.png");
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* ==============================
+       ページ全体を囲う金色の枠
+       ============================== */
+    .page-frame {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(94%, 900px);
+      min-height: calc(100vh - 40px);
+      margin: 20px auto;
+      padding: 56px 44px;
+
+      border: 1px solid rgba(179, 143, 76, 0.9);
+      box-shadow:
+        inset 0 0 0 5px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 6px rgba(179, 143, 76, 0.28),
+        0 18px 45px rgba(0, 0, 0, 0.55);
+
+      background: rgba(5, 5, 5, 0.36);
+      backdrop-filter: blur(1px);
+    }
+
+    /* 上下中央の小さな装飾 */
+    .page-frame::before,
+    .page-frame::after {
+      content: "◆";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #a9874e;
+      font-size: 13px;
+      background: #090909;
+      padding: 0 16px;
+    }
+
+    .page-frame::before {
+      top: -9px;
+    }
+
+    .page-frame::after {
+      bottom: -9px;
+    }
+
+    /* ==============================
+       持ち金表示
+       ============================== */
+    .balance-panel {
+      position: relative;
+      width: min(100%, 680px);
+      padding: clamp(46px, 8vw, 82px) clamp(24px, 7vw, 72px);
+      text-align: center;
+
+      border: 1px solid rgba(169, 134, 74, 0.72);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.025),
+          rgba(0, 0, 0, 0.18)
+        );
+      box-shadow:
+        inset 0 0 28px rgba(0, 0, 0, 0.55),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .balance-panel::before,
+    .balance-panel::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: clamp(18px, 4vw, 42px);
+      height: 1px;
+      background: #94733e;
+    }
+
+    .balance-panel::before {
+      left: 14px;
+    }
+
+    .balance-panel::after {
+      right: 14px;
+    }
+
+    .balance-text {
+      margin: 0;
+      color: #d8bd83;
+      font-size: clamp(23px, 4vw, 38px);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      line-height: 1.8;
+      text-shadow: 0 0 14px rgba(189, 145, 70, 0.12);
+    }
+
+    .balance-amount {
+      display: block;
+      margin: 18px 0;
+      color: #f0d8a5;
+      font-size: clamp(44px, 9vw, 82px);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+      text-shadow:
+        0 0 18px rgba(218, 173, 91, 0.18),
+        0 3px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    .balance-amount::before,
+    .balance-amount::after {
+      content: "";
+      display: block;
+      width: min(330px, 72%);
+      height: 1px;
+      margin: 18px auto;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #a17f45 20%,
+        #d1b06c 50%,
+        #a17f45 80%,
+        transparent
+      );
+    }
+
+    /* ==============================
+       スマホ用の調整
+       ============================== */
+    @media (max-width: 600px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .page-frame {
+        width: calc(100% - 24px);
+        min-height: calc(100vh - 24px);
+        margin: 12px auto;
+        padding: 30px 16px;
+      }
+
+      .balance-panel {
+        padding: 44px 20px;
+      }
+
+      .balance-text {
+        letter-spacing: 0.08em;
+      }
+
+      .balance-panel::before,
+      .balance-panel::after {
+        width: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page-frame">
+    <section class="balance-panel" aria-label="あなたの現在の持ち金">
+      <p class="balance-text">
+        あなたの持ち金は
+
+        <!-- ↓ 表示する金額をここで書き換えてください -->
+        <span class="balance-amount">〇〇円</span>
+
+        です
+      </p>
+    </section>
+  </main>
+</body>
+</html>
